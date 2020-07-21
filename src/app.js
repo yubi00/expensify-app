@@ -6,8 +6,8 @@ import { startSetExpenses } from './actions/expenses'
 import 'react-dates/lib/css/_datepicker.css'
 import 'normalize.css/normalize.css'
 import './styles/styles.scss'
-import AppRouter from './routers/AppRouter'
-import './firebase/firebase'
+import AppRouter, { history } from './routers/AppRouter'
+import { firebase } from './firebase/firebase'
 
 const store = configureStore()
 
@@ -16,9 +16,27 @@ const jsx = (
         <AppRouter/>
     </Provider>
 )
+
+let hasRendered = false
+const renderApp = () => {
+    if(!hasRendered) {
+        ReactDOM.render(jsx, document.querySelector('#app'))
+        hasRendered = true;
+    }
+}
+
 ReactDOM.render(<p>Loading....</p>, document.querySelector('#app'))
 
-store.dispatch(startSetExpenses())
-.then(() => {
-    ReactDOM.render(jsx, document.querySelector('#app'))
+firebase.auth().onAuthStateChanged((user) => {
+    if(user) {
+        store.dispatch(startSetExpenses()).then(() => {
+           renderApp()
+           if( history.location.pathname === '/') {
+               history.push('/dashboard')
+           }
+        })   
+    } else {
+        renderApp()
+        history.push('/')
+    }
 })
