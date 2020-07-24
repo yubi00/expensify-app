@@ -1,0 +1,19 @@
+.modal {
+    width: 50rem;
+    background: $off-white;
+    margin: $l-size $l-size;
+    padding: $l-size;
+    border: 1px solid $blue;
+    align-items: center;
+    text-align: center;
+}
+
+.modal__title {
+    font-weight: bold;
+    font-size: $font-size-large;
+}
+
+.modal__box {
+    display: flex;
+    justify-content: space-evenly;
+}
