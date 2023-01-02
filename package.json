@@ -6,7 +6,6 @@
   "license": "MIT",
   "scripts": {
     "start": "node index.js",
-    "build": "yarn run build",
     "build:dev": "webpack",
     "build:prod": "webpack -p --env production",
     "dev": "webpack-dev-server",
